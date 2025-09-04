@@ -27,7 +27,7 @@ app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"view"));
 app.use(cors({
   credentials:true,
-  origin: ["http://localhost:5173","http://localhost:5174"],  
+  origin: ["http://localhost:5173","http://localhost:5174","https://alumini-fwf2.onrender.com/"],  
   methods:["GET","POST","PUT","DELETE"],
   allowedHeaders:["Content-Type","Authorization"]
 }))

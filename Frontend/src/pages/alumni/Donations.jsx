@@ -33,7 +33,7 @@ const Donations = () => {
     }
 
    
-    const order = await axios.post("http://127.0.0.1:7023/user/create", {
+    const order = await axios.post("https://alumini-back.onrender.com/create", {
       amount: donationAmount * 100, 
     });
 
@@ -47,7 +47,7 @@ const Donations = () => {
       description: "Donation",
       order_id: id,
       handler: async function (response) {
-        const verify = await axios.post("http://127.0.0.1:7023/user/verify", response);
+        const verify = await axios.post("https://alumini-back.onrender.com/user/verify", response);
         alert(verify.data.message);
       },
       // prefill: {
