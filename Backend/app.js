@@ -14,6 +14,7 @@ const helmet=require("helmet");
 const morgan=require("morgan");
 const path=require("path");
 const cors=require("cors");
+const flash=require("express-flash");
 
 try{
     main()
@@ -21,16 +22,17 @@ try{
     console.log(err);
 }
 
+
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"view"));
 app.use(cors({
   credentials:true,
-  origin: "http://localhost:5173",  
+  origin: ["http://localhost:5173","http://localhost:5174"],  
   methods:["GET","POST","PUT","DELETE"],
   allowedHeaders:["Content-Type","Authorization"]
 }))
 
-
+app.use(flash());
 app.use(morgan("dev"));
 app.use(
   helmet({
@@ -70,8 +72,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new passportLocal(User.authenticate())); 
-
+passport.use(new passportLocal(
+  { usernameField: "email" },
+  User.authenticate()
+));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 app.get("/",(req,res)=>{

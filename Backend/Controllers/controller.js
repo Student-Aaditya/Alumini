@@ -12,14 +12,37 @@ const controller = {
         console.log(register);
         res.status(200).json({ msg: "sign up " })
     },
-    logIn: (req, res) => {
-        let { username, password } = req.body;
-        console.log(username, password);
-    },
-    logIn: async (req, res) => {
+   logIn: async (req, res) => {
+    try {
+      const { email, password } = req.body;
 
-        res.status(200).json({ msg: "login successful" });
-    },
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ msg: "User not found" });
+      }
+
+      user.authenticate(password, (err, authenticatedUser, passwordError) => {
+        if (err) return res.status(500).json({ msg: "Error", error: err.message });
+
+        if (!authenticatedUser) {
+          return res.status(401).json({ msg: "Invalid email or password" });
+        }
+
+        res.status(200).json({
+          msg: "Login successful",
+          user: {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+          },
+        });
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ msg: "Server error", error: err.message });
+    }
+  },
     smsRoute: async (req, res) => {
         let { username, phone } = req.body;
         await Sms(username, phone);
