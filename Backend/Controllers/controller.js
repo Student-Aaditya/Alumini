@@ -86,7 +86,19 @@ const controller = {
     uploadImage: async (req, res) => {
       res.json({ url: req.file.path });
 
-        }
+        },
+    saveAlumini:async(req,res)=>{
+      try {
+    const { name, phone, email, graduationYear } = req.body;
+    if (phone) {
+      await Sms(name, phone);
+    }
+    res.json({ success: true, message: "Alumni saved & SMS sent" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+    }
 }
 
 module.exports = controller;

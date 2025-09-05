@@ -1,5 +1,3 @@
-// src/components/admin/AlumniDetails.jsx
-// Read-only detail modal. Props: show, onClose, alumnus
 import React, { useState } from "react";
 
 export default function AlumniDetails({ show, onClose, alumnus }) {
@@ -100,7 +98,6 @@ export default function AlumniDetails({ show, onClose, alumnus }) {
           </div>
         </div>
 
-        {/* Certificate preview overlay */}
         {previewCert && (
           <div style={{marginTop:12}}>
             <div style={{borderTop:'1px solid #eee', paddingTop:12}}>

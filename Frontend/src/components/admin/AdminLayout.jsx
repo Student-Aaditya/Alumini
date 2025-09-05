@@ -1,4 +1,3 @@
-// src/layouts/AdminLayout.jsx
 import React from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,13 +6,11 @@ const AdminLayout = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear auth tokens or user data if needed
     navigate("/login");
   };
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      {/* Navbar */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div className="container-fluid">
           <Link className="navbar-brand fw-bold fs-4" to="/admin">
@@ -87,7 +84,6 @@ const AdminLayout = () => {
               </li>
 
 
-              {/* Logout Button */}
               <li className="nav-item ms-3">
                 <button
                   className="btn btn-outline-light btn-sm fw-semibold"
@@ -102,12 +98,10 @@ const AdminLayout = () => {
         </div>
       </nav>
 
-      {/* Page Content */}
       <div className="flex-grow-1 container py-4">
         <Outlet />
       </div>
 
-      {/* Footer */}
       <footer
         className="bg-dark text-white text-center py-3 mt-auto shadow-sm"
         style={{ fontSize: "0.9rem" }}
