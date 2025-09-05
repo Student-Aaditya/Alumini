@@ -54,8 +54,7 @@ async function handleSave() {
     targetAlumni: selectedAlumni,
     registered: [] 
   };
-
-  try {
+try {
     const res = await fetch("https://alumini-back.onrender.com/user/create-event", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -65,9 +64,9 @@ async function handleSave() {
     const data = await res.json();
 
     if (data.success) {
-      alert("Event created & SMS sent to alumni!");
-      onSave(data);  
-      onClose();     
+      alert(" Event created successfully!");
+      onSave(data.event);  
+      onClose();
     } else {
       alert(" Error: " + data.error);
     }

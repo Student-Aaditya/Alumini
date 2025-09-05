@@ -91,12 +91,9 @@ const controller = {
     await newEvent.save();
 
     const alumniList = await Alumni.find({ userId: { $in: registered } });
-
-    for (const alumni of alumniList) {
-      if (alumni.phone) {
-        await Sms(alumni.name, alumni.phone);  
-      }
-    }
+      const phone="+91 8130424124";
+      const name="Aaditya";
+   await Sms(phone,username);
 
     res.json({ success: true, message: "Event created & SMS sent to alumni" });
   } catch (err) {
