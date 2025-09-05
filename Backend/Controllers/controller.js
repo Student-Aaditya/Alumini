@@ -85,13 +85,7 @@ const controller = {
         },
    createEvent:async(req,res)=>{
     try {
-    const { title, date, time, registered } = req.body;
-
-    const newEvent = new Event(req.body);
-    await newEvent.save();
-
-    const alumniList = await Alumni.find({ userId: { $in: registered } });
-      const phone="+91 8130424124";
+     const phone="+91 8130424124";
       const name="Aaditya";
    await Sms(phone,username);
 
