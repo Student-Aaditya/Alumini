@@ -43,5 +43,6 @@
   "bugs": {
     "url": "https://github.com/Student-Aaditya/alumini_back/issues"
   },
-  "homepage": "https://github.com/Student-Aaditya/alumini_back#readme"
+  "homepage": "https://github.com/Student-Aaditya/alumini_back#readme",
+  "devDependencies": {}
 }
