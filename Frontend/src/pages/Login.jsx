@@ -22,11 +22,16 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("https://alumini-back.onrender.com/user/login", {
+      const res = await axios.post("http://127.0.0.1:7023/user/login", {
         email: data.email,
         password: data.password,
       });
+        const { role } = res.data.user;
 
+    if (role.toLowerCase() !== data.role.toLowerCase()) {
+      alert("Role mismatch! Please select the correct role.");
+      return;
+    }
       console.log(res.data);
 
       if (data.role === "admin") {

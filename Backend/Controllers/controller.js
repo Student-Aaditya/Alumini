@@ -13,36 +13,37 @@ const controller = {
         res.status(200).json({ msg: "sign up " })
     },
    logIn: async (req, res) => {
-    try {
-      const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-      const user = await User.findOne({ email });
-      if (!user) {
-        return res.status(404).json({ msg: "User not found" });
+    // Passport-local-mongoose authenticate
+    const auth = User.authenticate();
+
+    auth(email, password, (err, user, options) => {
+      if (err) {
+        return res.status(500).json({ msg: "Error", error: err.message });
       }
 
-      user.authenticate(password, (err, authenticatedUser, passwordError) => {
-        if (err) return res.status(500).json({ msg: "Error", error: err.message });
+      if (!user) {
+        return res.status(401).json({ msg: options?.message || "Invalid credentials" });
+      }
 
-        if (!authenticatedUser) {
-          return res.status(401).json({ msg: "Invalid email or password" });
-        }
-
-        res.status(200).json({
-          msg: "Login successful",
-          user: {
-            id: user._id,
-            username: user.username,
-            email: user.email,
-            role: user.role,
-          },
-        });
+      res.status(200).json({
+        msg: "Login successful",
+        user: {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+        },
       });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ msg: "Server error", error: err.message });
-    }
-  },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Server error", error: err.message });
+  }
+},
+
     smsRoute: async (req, res) => {
         let { username, phone } = req.body;
         await Sms(username, phone);
