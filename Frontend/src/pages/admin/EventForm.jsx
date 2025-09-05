@@ -42,20 +42,41 @@ export default function EventForm({ onClose, onSave, alumniList=[] }) {
     }
   }
 
-  function handleSave() {
-    if(!title || !dateTime) return alert("Fill title and date/time");
-    const event = {
-      id: Date.now().toString(),
-      title,
-      date: dateTime.split("T")[0],
-      time: dateTime.split("T")[1] || "00:00",
-      duration,
-      notify: notifyStudents,
-      targetAlumni: selectedAlumni,
-      registered: [] 
-    };
-    onSave(event);
+async function handleSave() {
+  if (!title || !dateTime) return alert("Fill title and date/time");
+
+  const eventData = {
+    title,
+    date: dateTime.split("T")[0],
+    time: dateTime.split("T")[1] || "00:00",
+    duration,
+    notify: notifyStudents,
+    targetAlumni: selectedAlumni,
+    registered: [] 
+  };
+
+  try {
+    const res = await fetch("https://alumini-back.onrender.com/user/create-event", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(eventData),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert("Event created & SMS sent to alumni!");
+      onSave(data);  
+      onClose();     
+    } else {
+      alert(" Error: " + data.error);
+    }
+  } catch (err) {
+    console.error("Event creation error:", err);
+    alert(" Failed to create event");
   }
+}
+
 
   return (
     <div style={{position:"fixed", inset:0, background:"rgba(0,0,0,0.45)", display:"flex", justifyContent:"center", alignItems:"center", zIndex:2000}}>

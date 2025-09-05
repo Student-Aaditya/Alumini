@@ -8,11 +8,7 @@ const controller = {
    signUp: async (req, res) => {
     try {
       const {username, email, password, role } = req.body;
-
-      // Create user instance
       const newUser = new User({username, email, role });
-
-      // Register using passport-local-mongoose
       const registeredUser = await User.register(newUser, password);
 
       res.status(200).json({
@@ -87,18 +83,29 @@ const controller = {
       res.json({ url: req.file.path });
 
         },
-    saveAlumini:async(req,res)=>{
-      try {
-    const { name, phone, email, graduationYear } = req.body;
-    if (phone) {
-      await Sms(name, phone);
+   createEvent:async(req,res)=>{
+    try {
+    const { title, date, time, registered } = req.body;
+
+    const newEvent = new Event(req.body);
+    await newEvent.save();
+
+    const alumniList = await Alumni.find({ userId: { $in: registered } });
+
+    for (const alumni of alumniList) {
+      if (alumni.phone) {
+        await Sms(alumni.name, alumni.phone);  
+      }
     }
-    res.json({ success: true, message: "Alumni saved & SMS sent" });
+
+    res.json({ success: true, message: "Event created & SMS sent to alumni" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, error: err.message });
   }
-    }
+}
+ 
+   
 }
 
 module.exports = controller;
