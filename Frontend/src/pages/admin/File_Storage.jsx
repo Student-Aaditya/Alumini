@@ -29,7 +29,6 @@ const pieData = [
 const COLORS = ["#007bff", "#28a745"];
 
 const Dashboard = () => {
-  // KPIs
   const totalAlumni = userStats.reduce((acc, curr) => acc + curr.alumni, 0);
   const totalStudents = userStats.reduce((acc, curr) => acc + curr.students, 0);
   const totalEvents = pieData.find(d => d.name==="Events")?.value || 0;
@@ -39,7 +38,6 @@ const Dashboard = () => {
     <div className="container my-4">
       <h1 className="text-center mb-4">Alumni-Student Dashboard</h1>
 
-      {/* KPI Cards */}
       <div className="row text-center mb-4">
         <div className="col-md-3 mb-3">
           <div className="card shadow-sm h-100">
@@ -75,7 +73,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Charts */}
       <div className="row">
         {/* Bar Chart */}
         <div className="col-md-6 mb-4">
@@ -96,7 +93,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Pie Chart */}
         <div className="col-md-6 mb-4">
           <div className="card shadow-sm h-100">
             <div className="card-body">

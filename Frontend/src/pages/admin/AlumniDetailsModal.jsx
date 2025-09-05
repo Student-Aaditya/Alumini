@@ -27,9 +27,6 @@ export default function AlumniDetailsModal({ alumni, onClose, navigateToAlumni }
         <div><strong>Position:</strong> {alumni.position}</div>
         <div><strong>Skills:</strong> {(alumni.skills||[]).join(", ")}</div>
 
-        {/* <div className="mt-3">
-          <button className="btn btn-primary" onClick={handleNavigate}>Go to Alumni Details</button>
-        </div> */}
       </div>
     </div>
   );
