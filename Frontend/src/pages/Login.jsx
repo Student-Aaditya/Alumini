@@ -22,7 +22,7 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("https://alumini-back.onrender.com//user/login", {
+      const res = await axios.post("https://alumini-back.onrender.com/user/login", {
         email: data.email,
         password: data.password,
         role:data.role
