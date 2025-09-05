@@ -1,5 +1,6 @@
 // src/pages/student/Mentorship.jsx
 import React from "react";
+import { FaHourglassHalf, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 const mentorshipRequests = {
   pending: [
@@ -38,67 +39,131 @@ const mentorshipRequests = {
   ],
 };
 
+const statusIcons = {
+  Pending: <FaHourglassHalf color="#ffc107" />,
+  Accepted: <FaCheckCircle color="#28a745" />,
+  Rejected: <FaTimesCircle color="#dc3545" />,
+};
+
 const Mentorship = () => {
   const renderRequests = (requests) =>
     requests.map((req, index) => (
       <div
         key={index}
-        className="d-flex align-items-center justify-content-between bg-white p-3 mb-2"
-        style={{ minHeight: "72px" }}
+        className="position-relative p-4 rounded shadow mb-4"
+        style={{
+          background: "rgba(255,255,255,0.9)",
+          overflow: "hidden",
+        }}
       >
-        <div className="d-flex align-items-center gap-3">
+        {/* Decorative shape */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-20px",
+            right: "-20px",
+            width: "100px",
+            height: "100px",
+            background:
+              req.status === "Accepted"
+                ? "rgba(40, 167, 69, 0.15)"
+                : req.status === "Rejected"
+                ? "rgba(220, 53, 69, 0.15)"
+                : "rgba(255, 193, 7, 0.15)",
+            borderRadius: "50%",
+            zIndex: 0,
+          }}
+        ></div>
+
+        <div className="d-flex align-items-center gap-3 mb-2" style={{ zIndex: 1 }}>
           <img
             src={req.avatar}
             alt={req.name}
-            className="rounded-circle"
-            style={{ width: "56px", height: "56px", objectFit: "cover" }}
+            className="rounded-circle shadow-sm"
+            style={{ width: "60px", height: "60px", objectFit: "cover" }}
           />
           <div>
-            <p className="mb-1 fw-medium">
-              {req.status === "Accepted"
-                ? `Mentorship with ${req.name}`
-                : `Request to ${req.name}`}
+            <p className="mb-1 fw-semibold" style={{ color: "#333", fontSize: "1rem" }}>
+              {req.status === "Accepted" ? `Mentorship with ${req.name}` : `Request to ${req.name}`}
             </p>
-            <small className="text-muted">
+            <small className="text-muted d-block" style={{ fontSize: "0.85rem" }}>
               {req.status === "Pending"
                 ? `Request sent on ${req.date}`
                 : `Request ${req.status.toLowerCase()} on ${req.date}`}
             </small>
           </div>
         </div>
-        <div>
+
+        <div className="text-md-end mt-2 mt-md-0" style={{ zIndex: 1 }}>
           <span
-            className={`fw-normal ${
-              req.status === "Accepted"
-                ? "text-success"
-                : req.status === "Rejected"
-                ? "text-danger"
-                : "text-secondary"
-            }`}
+            className="fw-bold px-3 py-1 rounded-pill"
+            style={{
+              color: "#fff",
+              fontSize: "0.85rem",
+              background:
+                req.status === "Accepted"
+                  ? "linear-gradient(135deg, #28a745, #2ecc71)"
+                  : req.status === "Rejected"
+                  ? "linear-gradient(135deg, #dc3545, #e74c3c)"
+                  : "linear-gradient(135deg, #ffc107, #ffca28)",
+            }}
           >
-            {req.status}
+            {statusIcons[req.status]} {req.status}
           </span>
         </div>
       </div>
     ));
 
   return (
-    <div className="container py-4">
-      <div className="mb-4">
-        <h2 className="fw-bold">Mentorship Requests</h2>
-        <p className="text-muted">
-          Track the status of your mentorship requests to alumni.
-        </p>
+    <div style={{ minHeight: "100vh", width: "100%", position: "relative", overflow: "hidden" }}>
+
+      {/* Main content */}
+      <div className="container col-12 col-md-10 mx-auto" style={{ position: "relative", zIndex: 1, padding: "4rem 1rem" }}>
+        {/* Hero Header */}
+        <div
+          className="text-center rounded mb-5 p-5 shadow"
+          style={{
+            background: "linear-gradient(135deg, #6c63ff, #00c6ff)",
+            color: "#fff",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <h1 className="fw-bold mb-3" style={{ fontSize: "2.8rem" }}>
+            Mentorship Requests
+          </h1>
+          <p className="mb-0" style={{ fontSize: "1.05rem" }}>
+            Track the status of your mentorship requests to alumni
+          </p>
+          <div
+            style={{
+              position: "absolute",
+              bottom: "-20px",
+              left: "-20px",
+              width: "120px",
+              height: "120px",
+              background: "rgba(255,255,255,0.1)",
+              borderRadius: "50%",
+            }}
+          ></div>
+        </div>
+
+        {/* Request Sections */}
+        <h5 className="fw-bold text-secondary d-flex align-items-center gap-2 mb-3">
+          <FaHourglassHalf /> Pending Requests
+        </h5>
+        {renderRequests(mentorshipRequests.pending)}
+
+        <h5 className="fw-bold text-success d-flex align-items-center gap-2 mt-4 mb-3">
+          <FaCheckCircle /> Accepted Requests
+        </h5>
+        {renderRequests(mentorshipRequests.accepted)}
+
+        <h5 className="fw-bold text-danger d-flex align-items-center gap-2 mt-4 mb-3">
+          <FaTimesCircle /> Rejected Requests
+        </h5>
+        {renderRequests(mentorshipRequests.rejected)}
       </div>
-
-      <h3 className="fw-bold mt-4">Pending Requests</h3>
-      {renderRequests(mentorshipRequests.pending)}
-
-      <h3 className="fw-bold mt-4">Accepted Requests</h3>
-      {renderRequests(mentorshipRequests.accepted)}
-
-      <h3 className="fw-bold mt-4">Rejected Requests</h3>
-      {renderRequests(mentorshipRequests.rejected)}
     </div>
   );
 };

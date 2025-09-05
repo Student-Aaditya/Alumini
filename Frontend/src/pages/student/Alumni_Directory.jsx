@@ -34,57 +34,86 @@ const alumniData = [
 
 const Alumni_Directory = () => {
   return (
-    <div className="container py-4">
-      <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
-        <div>
-          <h2 className="fw-bold">Alumni Directory</h2>
-          <p className="text-muted">
-            Connect with fellow alumni and expand your network.
-          </p>
-        </div>
-        <div className="d-flex gap-2 mt-3 mt-md-0">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search by name, skills, or company"
-          />
-        </div>
+    <div className="container py-5">
+      {/* Header */}
+      <div className="text-center mb-5">
+        <h1 className="fw-bold mb-2" style={{ color: "#4b4bff" }}>
+          Alumni Directory
+        </h1>
+        <p className="text-muted">Connect with fellow alumni and expand your network</p>
       </div>
 
-      {/* Filters */}
-      <div className="d-flex flex-wrap gap-2 mb-4">
-        {["Branch", "Year", "Skills", "Company"].map((filter) => (
-          <button key={filter} className="btn btn-outline-secondary">
-            {filter} <i className="bi bi-caret-down-fill"></i>
-          </button>
-        ))}
+      {/* Search & Filters */}
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-2">
+        <input
+          type="text"
+          className="form-control flex-grow-1 shadow-sm"
+          placeholder="Search by name, skills, or company"
+          style={{ borderRadius: "50px" }}
+        />
+        <div className="d-flex flex-wrap gap-2 mt-2 mt-md-0">
+          {["Branch", "Year", "Skills", "Company"].map((filter) => (
+            <button
+              key={filter}
+              className="btn btn-outline-primary rounded-pill py-1 px-3 shadow-sm"
+            >
+              {filter} <i className="bi bi-caret-down-fill ms-1"></i>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Alumni Cards */}
       <div className="row g-4">
         {alumniData.map((alumni, index) => (
-          <div className="col-12" key={index}>
-            <div className="card flex-md-row">
-              <div className="flex-grow-1 p-3 d-flex flex-column justify-content-between">
-                <div>
-                  <h5 className="card-title">{alumni.name}</h5>
-                  <p className="card-text text-muted">
-                    {alumni.role} | {alumni.description}
-                  </p>
+          <div className="col-12 col-md-6" key={index}>
+            <div
+              className="card h-100 shadow-sm rounded-4 overflow-hidden"
+              style={{
+                transition: "transform 0.3s, box-shadow 0.3s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow = "0 12px 25px rgba(0,0,0,0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 10px rgba(0,0,0,0.1)";
+              }}
+            >
+              <div className="d-flex flex-column flex-md-row">
+                {/* Image */}
+                <div
+                  style={{
+                    backgroundImage: `url(${alumni.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    minHeight: "180px",
+                    width: "100%",
+                    maxWidth: "180px",
+                  }}
+                  className="flex-shrink-0"
+                ></div>
+
+                {/* Info */}
+                <div className="p-3 d-flex flex-column justify-content-between flex-grow-1">
+                  <div>
+                    <h5 className="fw-bold mb-1">{alumni.name}</h5>
+                    <p className="text-muted mb-1">{alumni.role}</p>
+                    <p className="text-secondary small">{alumni.description}</p>
+                  </div>
+                  <button
+                    className="btn mt-2 align-self-start rounded-pill px-4 py-1"
+                    style={{
+                      background: "linear-gradient(135deg, #6c63ff, #00c6ff)",
+                      color: "#fff",
+                      border: "none",
+                    }}
+                  >
+                    View Profile
+                  </button>
                 </div>
-                <button className="btn btn-secondary mt-2 align-self-start">
-                  View Profile
-                </button>
               </div>
-              <div
-                className="card-img-right flex-fill"
-                style={{
-                  backgroundImage: `url(${alumni.image})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  minHeight: "200px",
-                }}
-              ></div>
             </div>
           </div>
         ))}
@@ -92,26 +121,17 @@ const Alumni_Directory = () => {
 
       {/* Pagination */}
       <nav className="d-flex justify-content-center mt-4">
-        <ul className="pagination">
+        <ul className="pagination flex-wrap">
           <li className="page-item">
-            <a className="page-link" href="#">
-              &laquo;
-            </a>
+            <a className="page-link" href="#">&laquo;</a>
           </li>
           {[1, 2, 3, "...", 10].map((page, i) => (
-            <li
-              key={i}
-              className={`page-item ${page === 1 ? "active" : ""}`}
-            >
-              <a className="page-link" href="#">
-                {page}
-              </a>
+            <li key={i} className={`page-item ${page === 1 ? "active" : ""}`}>
+              <a className="page-link" href="#">{page}</a>
             </li>
           ))}
           <li className="page-item">
-            <a className="page-link" href="#">
-              &raquo;
-            </a>
+            <a className="page-link" href="#">&raquo;</a>
           </li>
         </ul>
       </nav>

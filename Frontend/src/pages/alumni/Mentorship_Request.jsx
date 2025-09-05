@@ -1,6 +1,5 @@
 // src/pages/alumni/Mentorship_Request.jsx
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const mentorshipRequests = [
   {
@@ -17,41 +16,123 @@ const mentorshipRequests = [
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAfZh5y0rI4iDOLrd1HGIwJ2Hswvsxs1uyCP89mMZQGtxCctJDcnBVHyp-40mJI8z_029ohfQEOBTku4ujOuNTsesLoSyrwxJcm7PBBk87HTLThaW2grh4hGVDrE0nuoTMuSZALT-P88Dkq0Zx2sTuu8LExdBi-v-OfyR1Mdkc31-_c1jlfWpDAr2VihZAXQrrN1i0ehjOGaaf2ROKqV034kfiPmvmxJK7RF48bb4pBJzJWm2RMc5wCTLGrTK_ukiksTz-9MqgKfDA",
   },
-  // Add more requests here...
 ];
 
 const Mentorship_Request = () => {
   return (
-    <div className="container py-5" style={{ maxWidth: "960px" }}>
-      <h1 className="fw-bold mb-4 text-dark">Mentorship Requests</h1>
-      {mentorshipRequests.map((request, index) => (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#f7f9fc",
+        padding: "4rem 1rem",
+      }}
+    >
+      <div className="container col-12 col-md-10 col-lg-8 mx-auto">
+        {/* Header */}
         <div
-          key={index}
-          className="d-flex align-items-center justify-content-between bg-light p-3 mb-3 rounded"
+          className="text-center mb-5 p-5 rounded shadow-lg"
+          style={{
+            background: "linear-gradient(135deg, #6c63ff, #00c6ff)",
+            color: "#fff",
+            position: "relative",
+            overflow: "hidden",
+          }}
         >
-          <div className="d-flex align-items-center gap-3">
-            <img
-              src={request.image}
-              alt={request.name}
-              className="rounded-circle"
-              style={{ height: "56px", width: "56px", objectFit: "cover" }}
-            />
-            <div>
-              <p className="mb-1 fw-medium text-dark">{request.name}</p>
-              <p
-                className="mb-0 text-secondary"
-                style={{ fontSize: "0.9rem" }}
-              >
-                {request.course}, {request.year}
-              </p>
-            </div>
-          </div>
-          <div className="d-flex gap-2">
-            <button className="btn btn-success btn-sm">Accept</button>
-            <button className="btn btn-danger btn-sm">Reject</button>
-          </div>
+          <h1
+            style={{
+              fontSize: "2.5rem",
+              fontWeight: "700",
+              letterSpacing: "1px",
+            }}
+          >
+            Mentorship Requests
+          </h1>
+          <p style={{ fontSize: "1rem", maxWidth: "80%", margin: "0 auto" }}>
+            Review requests from students seeking guidance and support. Accept or reject requests to help shape the next generation.
+          </p>
+          <div
+            style={{
+              position: "absolute",
+              top: "-30px",
+              right: "-30px",
+              width: "100px",
+              height: "100px",
+              borderRadius: "50%",
+              background: "rgba(255,255,255,0.15)",
+            }}
+          ></div>
         </div>
-      ))}
+
+        {/* Request Cards */}
+        <div className="row g-4">
+          {mentorshipRequests.map((request, index) => (
+            <div className="col-12" key={index}>
+              <div
+                className="p-4 rounded shadow position-relative d-flex flex-column flex-md-row align-items-center justify-content-between"
+                style={{ background: "#ffffff" }}
+              >
+                {/* Decorative Circle */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "-15px",
+                    left: "-15px",
+                    width: "60px",
+                    height: "60px",
+                    borderRadius: "50%",
+                    background: "rgba(108, 99, 255, 0.1)",
+                    zIndex: 0,
+                  }}
+                ></div>
+
+                {/* Profile Info */}
+                <div className="d-flex align-items-center gap-3" style={{ zIndex: 1 }}>
+                  <img
+                    src={request.image}
+                    alt={request.name}
+                    className="rounded-circle shadow-sm"
+                    style={{ width: "64px", height: "64px", objectFit: "cover" }}
+                  />
+                  <div>
+                    <p className="mb-1 fw-bold text-dark">{request.name}</p>
+                    <p className="mb-0 text-secondary" style={{ fontSize: "0.9rem" }}>
+                      {request.course}, {request.year}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="d-flex gap-2 mt-3 mt-md-0" style={{ zIndex: 1 }}>
+                  <button
+                    className="btn fw-bold"
+                    style={{
+                      background: "linear-gradient(135deg, #6c63ff, #00c6ff)",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "25px",
+                      padding: "0.5rem 1.25rem",
+                    }}
+                  >
+                    Accept
+                  </button>
+                  <button
+                    className="btn fw-bold"
+                    style={{
+                      background: "linear-gradient(135deg, #ff6b6b, #ff8787)",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "25px",
+                      padding: "0.5rem 1.25rem",
+                    }}
+                  >
+                    Reject
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

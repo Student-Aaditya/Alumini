@@ -34,8 +34,8 @@ const App = () => {
   return (
     <Routes>
       {/* Public Route */}
+      <Route path="/login" element={<Login />} />
       <Route path="/" element={<Login />} />
-
 
       {/* Admin Routes */}
       <Route path="/admin" element={<AdminLayout />}>

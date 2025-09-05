@@ -30,34 +30,115 @@ const events = [
 
 const Events = () => {
   return (
-    <div className="container py-5" style={{ maxWidth: "960px" }}>
-      <h1 className="fw-bold mb-4 text-dark">Upcoming Events</h1>
-      {events.map((event, index) => (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#f0f4f8",
+        padding: "4rem 1rem",
+      }}
+    >
+      <div className="container col-12 col-md-10 mx-auto">
+        {/* Header */}
         <div
-          key={index}
-          className="d-flex gap-3 bg-light p-3 mb-3 justify-content-between align-items-center rounded"
+          className="text-center mb-5 p-5 rounded shadow-lg"
+          style={{
+            background: "linear-gradient(135deg, #6c63ff, #00c6ff)",
+            color: "#fff",
+            position: "relative",
+            overflow: "hidden",
+          }}
         >
-          <div className="flex-1">
-            <p className="mb-1 fw-medium text-dark">{event.title}</p>
-            <p
-              className="mb-1 text-secondary"
-              style={{ fontSize: "0.9rem" }}
-            >
-              {event.description}
-            </p>
-            <p
-              className="mb-0 text-secondary"
-              style={{ fontSize: "0.85rem" }}
-            >
-              {event.date}
-            </p>
-          </div>
-          <div className="d-flex gap-2">
-            <button className="btn btn-success btn-sm">Accept</button>
-            <button className="btn btn-danger btn-sm">Reject</button>
-          </div>
+          <h1
+            style={{
+              fontSize: "2.5rem",
+              fontWeight: "700",
+              letterSpacing: "1px",
+            }}
+          >
+            Upcoming Alumni Events
+          </h1>
+          <p style={{ fontSize: "1rem", maxWidth: "80%", margin: "0 auto" }}>
+            Stay connected and engaged with your alumni community. Don’t miss these exciting events!
+          </p>
+          {/* Decorative Circle */}
+          <div
+            style={{
+              position: "absolute",
+              top: "-40px",
+              left: "-40px",
+              width: "120px",
+              height: "120px",
+              borderRadius: "50%",
+              background: "rgba(255,255,255,0.15)",
+            }}
+          ></div>
         </div>
-      ))}
+
+        {/* Event Cards */}
+        <div className="row g-4">
+          {events.map((event, index) => (
+            <div className="col-12" key={index}>
+              <div
+                className="p-4 rounded shadow position-relative"
+                style={{ background: "#ffffff" }}
+              >
+                {/* Decorative Shape */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "-20px",
+                    right: "-20px",
+                    width: "80px",
+                    height: "80px",
+                    borderRadius: "50%",
+                    background: "rgba(108, 99, 255, 0.1)",
+                    zIndex: 0,
+                  }}
+                ></div>
+
+                {/* Event Content */}
+                <div style={{ position: "relative", zIndex: 1 }}>
+                  <h4 className="fw-bold mb-2">{event.title}</h4>
+                  <p className="text-secondary mb-2" style={{ fontSize: "0.95rem" }}>
+                    {event.description}
+                  </p>
+                  <p className="text-muted mb-3" style={{ fontSize: "0.85rem" }}>
+                    {event.date}
+                  </p>
+
+                  {/* Action Buttons */}
+                  <div className="d-flex gap-2">
+                    <button
+                      className="btn fw-bold"
+                      style={{
+                        background: "linear-gradient(135deg, #6c63ff, #00c6ff)",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "25px",
+                        padding: "0.5rem 1.25rem",
+                      }}
+                    >
+                      Accept
+                    </button>
+                    <button
+                      className="btn fw-bold"
+                      style={{
+                        background: "linear-gradient(135deg, #ff6b6b, #ff8787)",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "25px",
+                        padding: "0.5rem 1.25rem",
+                      }}
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
