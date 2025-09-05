@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-
 const Donations = () => {
   const [donationAmount, setDonationAmount] = useState("");
 
@@ -33,21 +32,21 @@ const Donations = () => {
     }
 
    
-    const order = await axios.post("http://127.0.0.1:7023/create", {
-      amount: donationAmount * 100, 
+    const order = await axios.post("http://127.0.0.1:7023/user/create", {
+      amount: donationAmount , 
     });
 
     const { id, amount, currency } = order.data;
 
     const options = {
-      key: "rzp_test_RCmSs0QSnDFOeT", 
+      key: import.meta.env.VITE_DONATION_KEY, 
       amount: amount.toString(),
       currency: currency,
       name: "Alumni Fund",
       description: "Donation",
       order_id: id,
       handler: async function (response) {
-        const verify = await axios.post("https://alumini-back.onrender.com/user/verify", response);
+        const verify = await axios.post("http://127.0.0.1:7023/user/verify", response);
         alert(verify.data.message);
       },
       theme: {
@@ -60,6 +59,7 @@ const Donations = () => {
         wallet: true,
       },
     };
+    console.log("Razorpay Key from ENV:", import.meta.env.VITE_DONATION_KEY);
 
     const rzp1 = new window.Razorpay(options);
     rzp1.open();

@@ -5,44 +5,63 @@ const  imageUpload  = require("../Service/cloudConfig.js");
 const upload=require("../Service/cloudConfig.js");
 
 const controller = {
-    signUp: async (req, res) => {
-        let { username, email, password, role } = req.body;
-        const newUser = new User({ email, username, role });
-        const register = await User.register(newUser, password);
-        console.log(register);
-        res.status(200).json({ msg: "sign up " })
-    },
-   logIn: async (req, res) => {
+   signUp: async (req, res) => {
+    try {
+      const {username, email, password, role } = req.body;
+
+      // Create user instance
+      const newUser = new User({username, email, role });
+
+      // Register using passport-local-mongoose
+      const registeredUser = await User.register(newUser, password);
+
+      res.status(200).json({
+        msg: "Signup successful",
+        user: {
+          id: registeredUser._id,
+          email: registeredUser.email,
+          role: registeredUser.role,
+        },
+      });
+    } catch (err) {
+      console.error("Signup Error:", err.message);
+      res.status(500).json({ msg: "Signup failed", error: err.message });
+    }
+  },
+  logIn: async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
-    // Passport-local-mongoose authenticate
-    const auth = User.authenticate();
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ msg: "Invalid email" });
+    }
 
-    auth(email, password, (err, user, options) => {
-      if (err) {
-        return res.status(500).json({ msg: "Error", error: err.message });
+    user.authenticate(password, (err, authenticatedUser, passwordError) => {
+      if (err) return res.status(500).json({ msg: "Server error" });
+      if (!authenticatedUser) {
+        return res.status(400).json({ msg: "Invalid password" });
       }
 
-      if (!user) {
-        return res.status(401).json({ msg: options?.message || "Invalid credentials" });
+      if (user.role.toLowerCase() !== role.toLowerCase()) {
+        return res.status(400).json({ msg: "Invalid role selected" });
       }
 
       res.status(200).json({
         msg: "Login successful",
         user: {
           id: user._id,
-          username: user.username,
           email: user.email,
           role: user.role,
         },
       });
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "Server error", error: err.message });
+    console.error(" Login Error:", err.message);
+    res.status(500).json({ msg: "Server error" });
   }
 },
+
 
     smsRoute: async (req, res) => {
         let { username, phone } = req.body;

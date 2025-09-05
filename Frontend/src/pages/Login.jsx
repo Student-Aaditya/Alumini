@@ -25,6 +25,7 @@ const Login = () => {
       const res = await axios.post("http://127.0.0.1:7023/user/login", {
         email: data.email,
         password: data.password,
+        role:data.role
       });
         const { role } = res.data.user;
 
@@ -38,7 +39,7 @@ const Login = () => {
         navigate("/admin/Students");
       } else if (data.role === "student") {
         navigate("/student/My_Profile");
-      } else if (data.role === "alumni") {
+      } else if (data.role === "alumini") {
         navigate("/alumni/Professional_Details");
       }
     } catch (err) {
@@ -105,7 +106,7 @@ const Login = () => {
             >
               <option value="admin">Admin</option>
               <option value="student">Student</option>
-              <option value="alumni">Alumni</option>
+              <option value="alumini">Alumini</option>
             </select>
           </div>
 
