@@ -1,25 +1,25 @@
+// Service/email.js
 require("dotenv").config();
-    
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const sendEmail = async () => {
+const sendEmail = async (to, subject, text, html) => {
   const msg = {
-    to: "dinesh.chand0029@gmail.com", 
+    to, 
     from: "aadityakuamr518@gmail.com", 
-    subject: "Hello from SendGrid + Node.js",
-    text: "This is a plain text email.",
-    html: "<strong>This is an HTML email 🚀</strong>",
+    subject,
+    text,
+    html,
   };
 
   try {
     await sgMail.send(msg);
+    console.log(" Email sent successfully to:", to);
+    return { success: true };
   } catch (error) {
-    console.error("❌ Error sending email:", error);
-    if (error.response) {
-      console.error(error.response.body); 
-    }
+    console.error("Error sending email:", error.response?.body || error.message);
+    return { success: false, error: error.message };
   }
 };
 
-sendEmail();
+module.exports = sendEmail;

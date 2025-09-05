@@ -33,7 +33,7 @@ const Donations = () => {
     }
 
    
-    const order = await axios.post("https://alumini-back.onrender.com/create", {
+    const order = await axios.post("http://127.0.0.1:7023/create", {
       amount: donationAmount * 100, 
     });
 
@@ -50,11 +50,6 @@ const Donations = () => {
         const verify = await axios.post("https://alumini-back.onrender.com/user/verify", response);
         alert(verify.data.message);
       },
-      // prefill: {
-      //   name: "Donor",
-      //   email: "donor@example.com",
-      //   contact: "9999999999",
-      // },
       theme: {
         color: "#3399cc",
       },

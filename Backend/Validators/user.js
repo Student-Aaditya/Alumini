@@ -5,13 +5,9 @@ module.export.addressValidationSchema = Joi.object({
         'string.base': 'Name must be a string',
         'any.required': 'Name is required',
     }),
-    email: Joi.string().required().messages({
-        'string.base': 'Street must be a string',
-        'any.required': 'Street is required',
-    }),
     password: Joi.string().required().messages({
-        'string.base': 'City must be a string',
-        'any.required': 'City is required',
+        'string.base': 'Password must be a string',
+        'any.required': 'Password is required',
     }),
     role: Joi.string().messages({
         'string.base': 'role must be a string',

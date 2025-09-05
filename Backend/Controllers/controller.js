@@ -49,9 +49,21 @@ const controller = {
         await Sms(username, phone);
     },
     emailRoute: async (req, res) => {
-        await sendEmail();
-        res.status(200).json({ msg: "data send successful" });
-    },
+    const { email, username } = req.body;
+
+    const response = await sendEmail(
+      email,
+      "Welcome to CampusConnect ",
+      `Hi ${username}, thanks for signing up.`,
+      `<h2>Hi ${username},</h2><p>Welcome to <b>CampusConnect</b> 🚀</p>`
+    );
+
+    if (response.success) {
+      res.status(200).json({ msg: "Email sent successfully!" });
+    } else {
+      res.status(500).json({ msg: "Failed to send email", error: response.error });
+    }
+  },
     uploadImage: async (req, res) => {
       res.json({ url: req.file.path });
 
