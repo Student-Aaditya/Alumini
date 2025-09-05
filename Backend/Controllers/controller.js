@@ -83,13 +83,11 @@ const controller = {
       res.json({ url: req.file.path });
 
         },
-   createEvent:async(req,res)=>{
+   createAlumini:async(req,res)=>{
     try {
-     const phone="+91 8130424124";
-      const name="Aaditya";
-   await Sms(phone,username);
-
-    res.json({ success: true, message: "Event created & SMS sent to alumni" });
+    const { phone ,username } = req.body;
+      await Sms(phone,username);
+    res.json({ success: true, message: "Alumini created & SMS sent to alumni" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, error: err.message });

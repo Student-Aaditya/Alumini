@@ -15,7 +15,7 @@ router.post("/user/signUp",validate(addressValidationSchema),controller.signUp);
 router.post("/user/login",controller.logIn);
 router.get("/user/sms",controller.smsRoute);
 router.get("/user/email",controller.emailRoute);
-router.post("user/create-event",controller.createEvent);
+router.post("user/create-alumini",controller.createAlumini);
 router.post("/user/upload",upload.single("file"),controller.uploadImage);
 router.get("/user/paymentPage",Payment.viewPayment);
 router.post("/user/create",Payment.createPayment);

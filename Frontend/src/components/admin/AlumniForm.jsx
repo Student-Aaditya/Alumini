@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { fileToHash } from "../../utils/hash";
+import axios from "axios";
 
 export default function AlumniForm({ show, onClose, onSave, initialData }) {
   const [form, setForm] = useState(null);
@@ -101,26 +102,29 @@ export default function AlumniForm({ show, onClose, onSave, initialData }) {
   toSave.skills = skillsInput.split(",").map(s => s.trim()).filter(Boolean);
   if (!toSave.id)
     toSave.id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-
-  try {
-    const res = await fetch("https://alumini-back.onrender.com/user/save-alumini", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(toSave)
-    });
-
-    const result = await res.json();
-    if (result.success) {
-      alert("Alumni saved & SMS sent!");
-      onSave(toSave); 
-      onClose();
-    } else {
-      alert("Failed: " + result.error);
+try {
+  const res = await axios.post(
+    "https://alumini-back.onrender.com/user/create-alumini",
+    {
+      phone: form.phone,
+      username: form.name,
     }
-  } catch (err) {
-    console.error(err);
-    alert("Something went wrong!");
+  );
+
+  const result = res.data; 
+
+  if (result.success) {
+    alert("Alumni saved & SMS sent!");
+    onSave(toSave);
+    onClose();
+  } else {
+    alert("Failed: " + result.error);
   }
+} catch (err) {
+  console.error("Error creating alumni:", err);
+  alert("Something went wrong!");
+}
+
 }
 
 

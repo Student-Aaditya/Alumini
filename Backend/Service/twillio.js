@@ -4,10 +4,10 @@ const client = new twilio(
   process.env.TWILIO_AUTH_TOKEN
 );
 
-async function Sms(username, phoneNo) {
+async function Sms(phoneNo, username) {
   try {
     const sms = await client.messages.create({
-      body: `Hello ${username}, a new event has been created. Please check your Alumni Portal for details.`,
+      body: `Hello ${username}, Welcome to the Alumini Portal. Please check your Alumni Portal for details.`,
       from: process.env.TWILIO_PHONE_NUMBER,
       to: phoneNo
     });
