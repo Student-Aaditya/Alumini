@@ -1,9 +1,54 @@
-// src/pages/alumni/Donations.jsx
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from 'axios'
+import process from 'process'
 
 const Donations = () => {
   const [donationAmount, setDonationAmount] = useState("");
+
+  const handlePayment = async () => {
+    if (!donationAmount || isNaN(donationAmount)) {
+      alert("Please enter a valid amount");
+      return;
+    }
+
+    try {
+      const { data } = await axios.post("https://alumini-back.onrender.com/user/create", {
+        amount: donationAmount,
+      });
+
+      const options = {
+        key: process.env.VITE_APP_RAZORPAY_KEY_ID, 
+        amount: data.amount,
+        currency: data.currency,
+        name: "Alumni Fund",
+        description: "Donation",
+        order_id: data.id, 
+        handler: async function (response) {
+          const verifyRes = await axios.post("https://alumini-back.onrender.com/user/verify", response);
+          if (verifyRes.data.success) {
+            alert("Payment Successful  Transaction Verified");
+          } else {
+            alert("Payment Verification Failed ");
+          }
+        },
+        prefill: {
+          name: "Your Donor Name",
+          email: "donor@example.com",
+          contact: "9876543210",
+        },
+        theme: {
+          color: "#6c63ff",
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Something went wrong while processing payment.");
+    }
+  };
 
   return (
     <div
@@ -81,6 +126,8 @@ const Donations = () => {
           <div className="d-grid">
             <button
               className="btn fw-bold"
+              onClick={handlePayment}
+
               style={{
                 padding: "0.75rem",
                 fontSize: "1rem",

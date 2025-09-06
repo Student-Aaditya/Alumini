@@ -83,16 +83,28 @@ const controller = {
       res.json({ url: req.file.path });
 
         },
-   createAlumini:async(req,res)=>{
-    try {
-    const { phone ,username } = req.body;
-      await Sms(phone,username);
-    res.json({ success: true, message: "Alumini created & SMS sent to alumni" });
+  createAlumini: async (req, res) => {
+  try {
+    console.log("Incoming body:", req.body); 
+
+    const { phone, username } = req.body;
+    if (!phone || !username) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Missing phone or username" });
+    }
+    await Sms(phone, username);
+
+    res.json({
+      success: true,
+      message: "Alumni created & SMS sent to alumni",
+    });
   } catch (err) {
-    console.error(err);
+    console.error("createAlumini error:", err);
     res.status(500).json({ success: false, error: err.message });
   }
-}
+},
+
  
    
 }
